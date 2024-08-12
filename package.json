@@ -1,0 +1,27 @@
+{
+  "name": "nillion-passkey-backend",
+  "version": "0.0.1",
+  "description": "Backend for passkey proof of concept with the WebAuthn API for a Ed25519 Key Pair",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daningyn/nillion-passkey-system.git"
+  },
+  "keywords": [
+    "passkey",
+    "webauthn",
+    "ed25519",
+    "nillion",
+    "daningyn",
+    "proofofconcept"
+  ],
+  "author": "daningyn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/daningyn/nillion-passkey-system/issues"
+  },
+  "homepage": "https://github.com/daningyn/nillion-passkey-system#readme"
+}
