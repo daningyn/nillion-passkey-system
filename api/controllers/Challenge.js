@@ -3,7 +3,6 @@ const { Op, where } = require('sequelize');
 const moment = require('moment');
 const { generateRegistrationOptions, generateAuthenticationOptions } = require('@simplewebauthn/server');
 const { rpID, CHALLENGE_TYPE } = require('../../common/constant');
-const { v4: uuidv4 } = require('uuid');
 const { User, Challenge } = require('../../models');
 
 const generateRegistrationChallenge = async (req, res) => {
@@ -43,10 +42,11 @@ const generateRegistrationChallenge = async (req, res) => {
                 rpName: 'Nillion Passkey System',
                 rpID,
                 userName: address,
-                attestationType: 'none',
+                attestationType: 'directs',
                 authenticatorSelection: {
                     requireResidentKey: true,
                     userVerification: 'required',
+                    authenticatorAttachment: process.env.RP_ID == 'localhost' ? 'platform' : 'cross-platform'
                 },
                 pubKeyCredParams: [
                     {
@@ -61,12 +61,13 @@ const generateRegistrationChallenge = async (req, res) => {
                 userAddress: address,
                 type: CHALLENGE_TYPE.REGISTRATION,
                 challenge: challengeOptions.challenge,
+                challengeRawData: JSON.stringify(challengeOptions),
                 expiredAt: moment().add(5, 'minutes').toDate()
             });
-            return res.json({ challenge: challengeOptions.challenge });
+            return res.json({ challengeOptions });
         }
 
-        return res.json({ challenge: currentChallenge.challenge });
+        return res.json({ challengeOptions: JSON.parse(currentChallenge.challengeRawData) });
 
     } catch (error) {
         console.log(error);

@@ -4,7 +4,7 @@ module.exports = {
       get:    ['HelloWorld.getHelloWorld']
     },
 
-    '/generate-challenge':  
+    '/generate-register-challenge':
     {
       post:    ['Challenge.generateRegistrationChallenge']
     },

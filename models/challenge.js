@@ -10,6 +10,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
+      challengeRawData: {
+        type: DataTypes.TEXT,
+        allowNull: false
+      },
       type: {
         type: DataTypes.STRING, // registration | authentication
         allowNull: false
