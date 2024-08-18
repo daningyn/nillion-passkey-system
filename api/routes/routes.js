@@ -1,5 +1,5 @@
 module.exports = {
-    '/hello-world':         
+    '/ping':         
     {
       get:    ['HelloWorld.getHelloWorld']
     },
@@ -9,8 +9,18 @@ module.exports = {
       post:    ['Challenge.generateRegistrationChallenge']
     },
 
+    '/generate-authentication-challenge':
+    {
+      post:    ['Challenge.generateAuthenChallenge']
+    },
+
     '/register':
     {
       post:   ['Authentication.register']
+    },
+
+    '/authenticate':
+    {
+      post:   ['Authentication.loginPasskey']
     }
 }

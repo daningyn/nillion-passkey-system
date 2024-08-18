@@ -115,8 +115,7 @@ const generateAuthenChallenge = async (req, res) => {
                 userVerification: 'required',
                 allowCredentials: [
                     {
-                        id: Buffer.from(user.credentialID, 'base64'),
-                        type: 'public-key',
+                        id: user.credentialID
                     },
                 ],
             });
@@ -126,12 +125,13 @@ const generateAuthenChallenge = async (req, res) => {
                 userAddress: address,
                 type: CHALLENGE_TYPE.AUTHENTICATION,
                 challenge: challengeOptions.challenge,
+                challengeRawData: JSON.stringify(challengeOptions),
                 expiredAt: moment().add(5, 'minutes').toDate()
             });
-            return res.json({ challenge: challengeOptions.challenge });
+            return res.json({ challengeOptions });
         }
 
-        return res.json({ challenge: currentChallenge.challenge });
+        return res.json({ challengeOptions: JSON.parse(currentChallenge.challengeRawData) });
 
     } catch (error) {
         console.log(error);
