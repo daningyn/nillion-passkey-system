@@ -1,5 +1,6 @@
 
-const rpID = 'https://nillion-passkey.daningyn.xyz';
+const rpID = process.env.RP_ID || 'localhost';
+const origin = rpID == 'localhost' ? `http://${rpID}:3001` : `https://${rpID}`;
 
 const CHALLENGE_TYPE = {
     REGISTRATION: 'registration',
@@ -8,5 +9,6 @@ const CHALLENGE_TYPE = {
 
 module.exports = {
     rpID,
-    CHALLENGE_TYPE
+    CHALLENGE_TYPE,
+    origin
 }

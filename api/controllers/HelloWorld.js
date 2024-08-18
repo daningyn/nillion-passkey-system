@@ -2,7 +2,7 @@
 
 const getHelloWorld = (req, res, next) => {
 
-    return res.send('Hello World!');
+    return res.send('Pong!');
   
 }
 
