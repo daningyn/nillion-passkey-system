@@ -8,13 +8,17 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     publicKey: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     credentialID: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING,
         allowNull: false,
         unique: true,
+    },
+    authenticator: {
+        type: DataTypes.JSON,
+        allowNull: false,
     },
     counter: {
         type: DataTypes.INTEGER,

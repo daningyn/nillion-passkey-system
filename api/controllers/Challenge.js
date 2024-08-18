@@ -54,6 +54,8 @@ const generateRegistrationChallenge = async (req, res) => {
                         type: 'public-key',
                     }
                 ],
+                supportedAlgorithmIDs: [-7, -8, -257],
+                timeout: 5 * 60 * 1000,
             });
 
             // Generate a new challenge with 5 minutes expiration
@@ -115,9 +117,11 @@ const generateAuthenChallenge = async (req, res) => {
                 userVerification: 'required',
                 allowCredentials: [
                     {
-                        id: user.credentialID
+                        id: user.credentialID,
+                        type: 'public-key'
                     },
                 ],
+                timeout: 5 * 60 * 1000,
             });
 
             // Generate a new challenge with 5 minutes expiration

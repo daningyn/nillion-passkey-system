@@ -17,7 +17,7 @@ const register = async (req, res) => {
             userAddress: address,
             type: CHALLENGE_TYPE.REGISTRATION,
             expiredAt: {
-                [Op.gt]: moment().add(2, 'minutes').toDate() // add more minutes to avoid lagging in request
+                [Op.gt]: moment().add(-2, 'minutes').toDate() // add more minutes to avoid lagging in request
             }
         }
     });
@@ -43,8 +43,9 @@ const register = async (req, res) => {
 
             await User.create({
                 address,
-                publicKey: Buffer.from(credentialPublicKey).toString('base64'),
-                credentialID: Buffer.from(credentialID).toString('base64'),
+                publicKey: Buffer.from(credentialPublicKey).toString(),
+                credentialID: Buffer.from(credentialID).toString(),
+                authenticator: registrationInfo,
                 counter,
             });
 
@@ -82,7 +83,7 @@ const loginPasskey = async (req, res) => {
             userAddress: address,
             type: CHALLENGE_TYPE.AUTHENTICATION,
             expiredAt: {
-                [Op.gt]: moment().add(2, 'minutes').toDate() // add more minutes to avoid lagging in request
+                [Op.gt]: moment().add(-2, 'minutes').toDate() // add more minutes to avoid lagging in request
             }
         }
     });
@@ -110,9 +111,10 @@ const loginPasskey = async (req, res) => {
             expectedRPID: rpID,
             authenticator: {
                 credentialID: user.credentialID,
-                credentialPublicKey: user.publicKey,
+                credentialPublicKey: new Uint8Array(Buffer.from(Object.values(user.authenticator.credentialPublicKey))),
                 counter: user.counter
             },
+            requireUserVerification: true
         });
     } catch (error) {
         console.error(error);

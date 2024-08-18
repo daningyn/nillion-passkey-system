@@ -16,12 +16,16 @@ module.exports = {
             },
             publicKey: {
                 allowNull: false,
-                type: Sequelize.TEXT
+                type: Sequelize.STRING
             },
             credentialID: {
                 allowNull: false,
                 unique: true,
-                type: Sequelize.TEXT
+                type: Sequelize.STRING
+            },
+            authenticator: {
+                allowNull: false,
+                type: Sequelize.JSON
             },
             counter: {
                 allowNull: false,
