@@ -46,7 +46,7 @@ const generateRegistrationChallenge = async (req, res) => {
                 authenticatorSelection: {
                     requireResidentKey: true,
                     userVerification: 'required',
-                    authenticatorAttachment: process.env.RP_ID == 'localhost' ? 'platform' : 'cross-platform'
+                    authenticatorAttachment: 'platform'
                 },
                 pubKeyCredParams: [
                     {
