@@ -1,26 +1,28 @@
 module.exports = {
-    '/ping':         
+    '/ping':
     {
-      get:    ['HelloWorld.getHelloWorld']
+        get:    ['HelloWorld.getHelloWorld']
     },
 
     '/generate-register-challenge':
     {
-      post:    ['Challenge.generateRegistrationChallenge']
+        post:   ['Challenge.generateRegistrationChallenge']
     },
 
     '/generate-authentication-challenge':
     {
-      post:    ['Challenge.generateAuthenChallenge']
+        post:   ['Challenge.generateAuthenChallenge']
     },
 
     '/register':
     {
-      post:   ['Authentication.register']
+        post:   ['Authentication.register']
     },
 
     '/authenticate':
     {
-      post:   ['Authentication.loginPasskey']
-    }
+        post:   ['Authentication.loginPasskey'],
+        get:    ['Authentication.authenticateJWT']
+    },
+
 }

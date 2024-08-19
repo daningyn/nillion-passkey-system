@@ -3,6 +3,8 @@ const { CHALLENGE_TYPE, rpID, origin } = require('../../common/constant');
 const { Challenge, User } = require('../../models');
 const { verifyRegistrationResponse, verifyAuthenticationResponse } = require('@simplewebauthn/server');
 const { Op } = require('sequelize');
+const jwt = require('jsonwebtoken');
+const cookie = require('cookie');
 
 const register = async (req, res) => {
 
@@ -41,7 +43,7 @@ const register = async (req, res) => {
         if (verified) {
             const { credentialPublicKey, credentialID, counter } = registrationInfo;
 
-            await User.create({
+            const user = await User.create({
                 address,
                 publicKey: Buffer.from(credentialPublicKey).toString(),
                 credentialID: Buffer.from(credentialID).toString(),
@@ -54,10 +56,20 @@ const register = async (req, res) => {
                     id: currentChallenge.id
                 }
             });
-            res.json({ 
+
+            const token = jwt.sign({
+                id: user.id,
+                address
+            }, process.env.JWT_KEY, { expiresIn: '7d' });
+
+            res
+            .status(200)
+            .json({ 
                 success: true,
                 results: {
-                    address
+                    id: user.id,
+                    address,
+                    jwt: token
                 }
             });
         } else {
@@ -131,10 +143,19 @@ const loginPasskey = async (req, res) => {
             }
         });
 
-        res.json({ 
+        const token = jwt.sign({
+            id: user.id,
+            address
+        }, process.env.JWT_KEY, { expiresIn: '7d' });
+
+        res
+        .status(200)
+        .json({ 
             success: true,
             results: {
-                address
+                id: user.id,
+                address,
+                jwt: token
             }
         });
 
@@ -146,7 +167,25 @@ const loginPasskey = async (req, res) => {
 
 }
 
+const authenticateJWT = async (req, res) => {
+
+    const authorization = req.headers['authorization'];
+    if (!authorization) return res.sendStatus(401).end();
+
+    const token = authorization.split(' ')[1];
+    if (!token) return res.sendStatus(401).end();
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_KEY);
+        return res.status(200).json(decoded);
+    } catch (err) {
+        return res.sendStatus(401).end();
+    }
+        
+}
+
 module.exports = {
     register,
-    loginPasskey
+    loginPasskey,
+    authenticateJWT
 }

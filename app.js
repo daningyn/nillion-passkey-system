@@ -5,12 +5,15 @@ const { apiLogger } = require('./middlewares/api-logger');
 const _ = require('lodash');
 const middlewares = require('./middlewares');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 require('dotenv').config()
 
 const app = express();
 
 app.use(cors());
+
+app.use(cookieParser());
 
 app.use(bodyParser.json());
 
