@@ -1,6 +1,6 @@
 
 const rpID = process.env.RP_ID || 'localhost';
-const origin = rpID == 'localhost' ? `http://${rpID}:3001` : `https://${rpID}`;
+const origin = rpID == 'localhost' ? `http://${rpID}:3001` : `https://nillion-passkey-demo.${rpID}`;
 
 const CHALLENGE_TYPE = {
     REGISTRATION: 'registration',
